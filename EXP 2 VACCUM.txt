@@ -1,0 +1,196 @@
+def vacuum_world():
+    goal_state = {'A': '0', 'B': '0'}
+
+    location_input = input("Enter Location of Vacuum: ")
+    status_input = input("Enter status of " + location_input + ": ")
+    status_input_complement = input("Enter status of other tile: ")
+    print("Initial Location Condition" + " {A: " + status_input + ", B: " + status_input_complement + "}")
+
+    if location_input == 'A':
+        print("\nVacuum is placed in Location A")
+        if status_input == '1':
+            print("Location A is Dirty.")
+            goal_state['A'] = '0'
+            print("Location A has been Cleaned.")
+
+            if status_input_complement == '1':
+                print("Location B is Dirty.")
+                print("Moving right to the Location B.")
+                goal_state['B'] = '0'
+                print("Location B has been Cleaned.")
+            else:
+                print("Location B is already clean.")
+        else:
+            print("Location A is already clean.")
+            if status_input_complement == '1':
+                print("Location B is Dirty.")
+                print("Moving RIGHT to the Location B.")
+                goal_state['B'] = '0'
+                print("Location B has been Cleaned.")
+            else:
+                print("Location B is already clean.")
+
+    else:
+        print("Vacuum is placed in location B")
+        if status_input == '1':
+            print("Location B is Dirty.")
+            goal_state['B'] = '0'
+            print("Location B has been Cleaned.")
+
+            if status_input_complement == '1':
+                print("Location A is Dirty.")
+                print("Moving LEFT to the Location A.")
+                goal_state['A'] = '0'
+                print("Location A has been Cleaned.")
+        else:
+            print("Location B is already clean.")
+            if status_input_complement == '1':
+                print("Location A is Dirty.")
+                print("Moving LEFT to the Location A.")
+                goal_state['A'] = '0'
+                print("Location A has been Cleaned.")
+            else:
+                print("Location A is already clean.")
+
+    print("GOAL STATE:")
+    print(goal_state)
+    print("Performance Measurement: Not available")
+
+vacuum_world()
+
+
+
+
+
+************************************************************************************
+
+
+
+
+
+goalState = {'L' : '0' , 'R' : '0'}
+action = 0       # 0 = Clean , 1 = Dirty
+cost = 0
+roomStates = {'L' : '0' , 'R' : '0'}
+
+#initial input
+print ("Enter the starting location of vacuum (L/R) = ")
+location = input()
+print()
+
+for room in roomStates:
+    action = input("Enter the state of " + room + " (0 for clean /1 for dirty): ")
+    roomStates[room] = action
+
+#General Outputs
+
+print()
+print("\nCurrent State: " + str(roomStates))
+print("\nGoal state: " + str(goalState))
+
+print("\n Vacuum is placed in location " + location)
+
+if (roomStates != goalState) :
+   
+    #If the starting location is room L
+    if (location == 'L'):
+        if (roomStates['L'] == '1'): #if dirty
+            roomStates['L'] = '0'
+            cost+=1
+            print("Location L was dirty\nLocation L has been cleaned\nCost for cleaning is 1.")
+           
+        if (roomStates == goalState):
+            print("Goal state has been met.")
+            print("\nPerformance Measurement: " + str(cost))
+           
+        #If L is clean. Going from L -> R
+        else:
+            print("\nL is clean")
+            print("\nL -> R")
+            print("\nCost for moving within rooms = 1")
+            cost+=1
+           
+            if (roomStates['R'] == '1'):#If R is dirty
+                roomStates['R'] = '0'
+                cost+=1
+                print("Location R was dirty\nLocation R has been cleaned\nCost for cleaning is 1.")
+               
+            if (roomStates == goalState):
+                print("Goal state has been met.")
+                print("\nPerformance Measurement: " + str(cost))
+             
+    elif (location == "R"):
+        if(roomStates['R'] == '1'):
+            roomStates['R'] = '0'
+            cost+=1
+            print("Location R was dirty\nLocation R has been cleaned\nCost for cleaning is 1.")
+           
+        if (roomStates == goalState):
+            print("Goal state has been met.")
+            print("\nPerformance Measurement: " + str(cost))
+           
+        else:
+            print("\nR is clean")
+            print("\nR -> L")
+            print("\nCost for moving within rooms = 1")
+            cost+=1
+           
+            if(roomStates['L'] == '1'):
+                roomStates['L'] = '0'
+                cost+=1
+                print("Location L was dirty\nLocation L has been cleaned\nCost for cleaning is 1.")
+               
+                if (roomStates == goalState):
+                    print("Goal state has been met.")
+                    print("\nPerformance Measurement: " + str(cost))
+               
+             
+                else:
+                    print("\nL is clean")
+                    print("\nL -> R")
+                    print("\nCost for moving within rooms = 1")
+                    cost+=1
+
+                    print("\nR is also clean")
+                    print("\nR -> C")
+                    print("\nCost for moving within rooms = 1")
+                    cost+=1
+
+                    roomStates['C'] = '0'
+                    cost+=1
+                    print("Location C was dirty\nLocation C has been cleaned\nCost for cleaning is 1.")
+
+                    if (roomStates == goalState):
+                        print("Goal state has been met.")
+                        print("\nPerformance Measurement: " + str(cost))
+           
+            elif(roomStates['C'] == '1'):
+                roomStates['C'] = '0'
+                cost+=1
+                print("Location C was dirty\nLocation C has been cleaned\nCost for cleaning is 1.")
+               
+                if (roomStates == goalState):
+                    print("Goal state has been met.")
+                    print("\nPerformance Measurement: " + str(cost))
+               
+                else:
+                    print("\nC is clean")
+                    print("\nC -> R")
+                    print("\nCost for moving within tiles = 1")
+                    cost+=1
+
+                    print("\nR is also clean")
+                    print("\nR -> L")
+                    print("\nCost for moving within tiles = 1")
+                    cost+=1
+
+                    roomStates['L'] = '0'
+                    cost+=1
+                    print("Location L was dirty\nLocation L has been cleaned\nCost for cleaning is 1.")
+
+                    if (roomStates == goalState):
+                        print("Goal state has been met.")
+                        print("\nPerformance Measurement: " + str(cost))
+else:
+    print("\nLll rooms are already clean")
+    print("\nPerformance Measurement: " + str(cost))
